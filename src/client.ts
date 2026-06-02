@@ -13,7 +13,7 @@ export class ModulrHttpClient {
 
   constructor(options: ModulrClientOptions = {}) {
     this.apiKey = options.apiKey;
-    this.baseUrl = (options.baseUrl ?? "https://modulr.xyz").replace(/\/$/, "");
+    this.baseUrl = (options.baseUrl ?? "https://modulr402.com").replace(/\/$/, "");
     this.timeoutMs = options.timeoutMs ?? 30000;
     this.maxRetries = options.maxRetries ?? 3;
   }
