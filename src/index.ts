@@ -10,7 +10,7 @@ export class Modulr {
   readonly audit: AuditModule;
   readonly agent: AgentModule;
 
-  constructor(options: ModulrClientOptions) {
+  constructor(options: ModulrClientOptions = {}) {
     const http = new ModulrHttpClient(options);
     this.walletRisk = new WalletRiskModule(http);
     this.tokenLaunch = new TokenLaunchModule(http);

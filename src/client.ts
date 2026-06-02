@@ -1,17 +1,17 @@
 export interface ModulrClientOptions {
-  apiKey: string;
+  apiKey?: string;
   baseUrl?: string;
   timeoutMs?: number;
   maxRetries?: number;
 }
 
 export class ModulrHttpClient {
-  private readonly apiKey: string;
+  private readonly apiKey: string | undefined;
   private readonly baseUrl: string;
   private readonly timeoutMs: number;
   private readonly maxRetries: number;
 
-  constructor(options: ModulrClientOptions) {
+  constructor(options: ModulrClientOptions = {}) {
     this.apiKey = options.apiKey;
     this.baseUrl = (options.baseUrl ?? "https://modulr.xyz").replace(/\/$/, "");
     this.timeoutMs = options.timeoutMs ?? 30000;
@@ -26,12 +26,12 @@ export class ModulrHttpClient {
       const timer = setTimeout(() => controller.abort(), this.timeoutMs);
 
       try {
+        const headers: Record<string, string> = { "Content-Type": "application/json" };
+        if (this.apiKey) headers["x-modulr-api-key"] = this.apiKey;
+
         const res = await fetch(`${this.baseUrl}${path}`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-modulr-api-key": this.apiKey,
-          },
+          headers,
           body: JSON.stringify(body),
           signal: controller.signal,
         });
