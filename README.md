@@ -1,6 +1,6 @@
 # @modulr/sdk
 
-Official TypeScript SDK for the [Modulr](https://modulr.xyz) API.
+Official TypeScript SDK for the [Modulr](https://modulr402.com) API.
 
 ## Install
 
@@ -13,10 +13,12 @@ npm install @modulr/sdk
 ```ts
 import { Modulr } from '@modulr/sdk'
 
+const modulr = new Modulr() // no API key required
+
+// optional config
 const modulr = new Modulr({
-  apiKey: 'your-api-key',
-  timeoutMs: 30000, // optional, default 30s
-  maxRetries: 3,    // optional, default 3
+  timeoutMs: 30000, // default 30s
+  maxRetries: 3,    // default 3
 })
 ```
 
@@ -90,21 +92,26 @@ Only `contractText` is required.
 
 ## AI Agent Generator
 
-Coming soon. The module is available now and types are exported — it will be active once the Agent Generator ships.
+Generate a complete, production-ready TypeScript agent script. Specify the agent type, target chain, framework, trigger conditions and parameters — the API returns a full runnable script with setup instructions, required environment variables and a dependency list.
 
 ```ts
 const agent = await modulr.agent.generate({
-  agentType: 'Trading Bot',
-  agentName: 'SOL Price Bot',
-  description: 'Monitor SOL price and alert when it drops below $100',
-  targetChain: 'Solana',
-  framework: 'Vanilla TypeScript',
+  agentType: 'Wallet Monitor',       // "Trading Bot" | "Wallet Monitor" | "Price Alert" | "DeFi Automation" | "NFT Sniper" | "Portfolio Tracker" | "Liquidity Manager" | "Custom"
+  agentName: 'SOL Whale Watcher',
+  description: 'Monitor a Solana wallet for large SOL movements above a configurable threshold',
+  targetChain: 'Solana',             // "Solana" | "Ethereum" | "Base" | "Arbitrum" | "Other"
+  framework: 'Vanilla TypeScript',   // "Vanilla TypeScript" | "Anchor (Solana)" | "Ethers.js" | "Viem"
+  triggerCondition: 'Poll every 60 seconds',
+  parameters: 'walletAddress, thresholdSOL',
 })
 
-console.log(agent.scriptContent)      // complete .ts file
-console.log(agent.setupInstructions)  // string[]
-console.log(agent.requiredEnvVars)    // string[]
+console.log(agent.scriptContent)      // complete .ts file ready to run
+console.log(agent.setupInstructions)  // string[] — step-by-step setup guide
+console.log(agent.requiredEnvVars)    // string[] — env vars needed to run
+console.log(agent.dependencies)       // string[] — npm packages with exact versions
 ```
+
+Only `agentName` and `description` are required.
 
 ---
 
